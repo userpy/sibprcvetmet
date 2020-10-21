@@ -1,0 +1,30 @@
+version: "3.8"
+volumes:
+  client-dist: {}
+
+services:
+  client:
+    build:
+      client/
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./client:/client
+      - client-dist:/client/dist
+    links:
+      - "server"
+  server:
+    build:
+      server/
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/server
+      - client-dist:/server/dist
+    links:
+      - "mongo"
+  mongo:
+    image: "mongo"
+
+
+
